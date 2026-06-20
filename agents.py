@@ -10,6 +10,9 @@ MODEL = "llama-3.3-70b-versatile"
 
 
 def call_groq(system_prompt: str, user_prompt: str) -> str:
+    if not GROQ_API_KEY:
+        raise ValueError("GROQ_API_KEY is not set. Add it in Streamlit Cloud → Settings → Secrets.")
+
     headers = {
         "Authorization": f"Bearer {GROQ_API_KEY}",
         "Content-Type": "application/json"
@@ -23,7 +26,8 @@ def call_groq(system_prompt: str, user_prompt: str) -> str:
         ]
     }
     response = requests.post(GROQ_URL, headers=headers, json=payload)
-    response.raise_for_status()
+    if not response.ok:
+        raise Exception(f"Groq API error {response.status_code}: {response.text}")
     return response.json()["choices"][0]["message"]["content"]
 
 
