@@ -1,5 +1,5 @@
 import os
-from crewai import Agent, Task, Crew, Process, LLM
+from crewai import Agent, LLM
 from crewai_tools import SerperDevTool
 from dotenv import load_dotenv
 
@@ -13,8 +13,8 @@ llm = LLM(
     temperature=0.2
 )
 
-def get_agents():
 
+def get_agents():
     planner = Agent(
         role="Autonomous Travel Planner",
         goal="Create optimal travel plans using real-world constraints",
@@ -23,7 +23,6 @@ def get_agents():
         llm=llm,
         verbose=True
     )
-
     critic = Agent(
         role="AI Travel Auditor",
         goal="Detect unrealistic plans and enforce realism",
@@ -31,7 +30,6 @@ def get_agents():
         llm=llm,
         verbose=True
     )
-
     optimizer = Agent(
         role="Travel Optimization Engine",
         goal="Fix and improve itinerary based on audit feedback",
@@ -39,5 +37,4 @@ def get_agents():
         llm=llm,
         verbose=True
     )
-
     return planner, critic, optimizer
