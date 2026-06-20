@@ -17,16 +17,19 @@ with st.sidebar:
 
 if run:
     if not os.getenv("GROQ_API_KEY"):
-        st.error("Missing GROQ_API_KEY in Streamlit secrets.")
+        st.error("❌ GROQ_API_KEY missing. Go to Streamlit Cloud → App Settings → Secrets and add:\nGROQ_API_KEY = 'your_key_here'")
     else:
-        with st.spinner("🤖 Planner agent working..."):
-            plan, critique, final = run_agentic_system(destination, days, budget, interests)
+        try:
+            with st.spinner("🤖 Agents working..."):
+                plan, critique, final = run_agentic_system(destination, days, budget, interests)
 
-        st.subheader("📋 Initial Plan")
-        st.write(plan)
+            st.subheader("📋 Initial Plan")
+            st.write(plan)
 
-        st.subheader("🔍 Audit / Critique")
-        st.write(critique)
+            st.subheader("🔍 Audit / Critique")
+            st.write(critique)
 
-        st.subheader("✅ Final Optimized Itinerary")
-        st.write(final)
+            st.subheader("✅ Final Optimized Itinerary")
+            st.write(final)
+        except Exception as e:
+            st.error(f"❌ Error: {str(e)}")
