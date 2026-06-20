@@ -11,17 +11,22 @@ st.title("🧠 Production-Grade Agentic Travel System")
 with st.sidebar:
     destination = st.text_input("Destination", "Tokyo")
     days = st.slider("Days", 1, 15, 5)
-    budget = st.number_input("Budget", 500, 20000, 3000)
+    budget = st.number_input("Budget ($)", 500, 20000, 3000)
     interests = st.text_input("Interests", "food, culture, tech")
     run = st.button("🚀 Run Agentic System")
 
 if run:
     if not os.getenv("GROQ_API_KEY"):
-        st.error("Missing GROQ_API_KEY")
-    elif not os.getenv("SERPER_API_KEY"):
-        st.error("Missing SERPER_API_KEY")
+        st.error("Missing GROQ_API_KEY in Streamlit secrets.")
     else:
-        with st.status("Running autonomous agent system...", expanded=True):
-            result = run_agentic_system(destination, days, budget, interests)
-        st.subheader("📍 Final Output")
-        st.write(result)
+        with st.spinner("🤖 Planner agent working..."):
+            plan, critique, final = run_agentic_system(destination, days, budget, interests)
+
+        st.subheader("📋 Initial Plan")
+        st.write(plan)
+
+        st.subheader("🔍 Audit / Critique")
+        st.write(critique)
+
+        st.subheader("✅ Final Optimized Itinerary")
+        st.write(final)
