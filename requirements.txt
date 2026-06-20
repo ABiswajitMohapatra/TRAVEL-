@@ -3,3 +3,4 @@ crewai==1.14.7
 crewai-tools==1.14.7
 python-dotenv
 pydantic>=2.0.0,<3.0.0
+chromadb>=1.0.0
